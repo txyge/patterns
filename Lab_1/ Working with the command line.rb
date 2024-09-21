@@ -3,11 +3,11 @@ puts"3---------------------"
 print"Введите команду языка Ruby:"
 Ruby_Command=$stdin.gets.chomp
 #Вывод результата команды для Ruby
-puts"Результатик для Руби:"
+puts"Результат для Руби:"
 eval(Ruby_Command)
 #Ввод команды для ОС
 print"Введите команду операционной системы:"
 OS_Command=$stdin.gets.chomp
 #Вывод результата команды для ОС
-puts"Результатик для ОС:"
+puts"Результат для ОС:"
 system(OS_Command)
