@@ -59,11 +59,45 @@ def count_elements_while(array)
   count
 end
 
-array = [-3, -2, 1, 4, 5]
+#Проверка количества аргументов
+if ARGV.length != 2
+  puts "Внимание! Необходимо указать 2 аргумента:
+  Пример: ruby script.rb <met_number> <file_path>"
+  exit
+end
 
-puts "Минимальный элемент (for): #{min_element(array)}"
-puts "Минимальный элемент (while): #{min_element_while(array)}"
-puts "Номер первого положительного элемента (for): #{first_positive(array)}"
-puts "Номер первого положительного элемента (while): #{first_positive_while(array)}"
-puts "Количество элементов (for): #{count_elements_for(array)}"
-puts "Количество элементов (while): #{count_elements_while(array)}"
+met_number = ARGV[0].to_i
+Filep = ARGV[1]
+
+#Проверка на существование файла
+begin
+  array = File.read(Filep).split.map(&:to_i)
+  methods(met_number, array)
+rescue Errno::ENOENT
+  puts "Файл не найден"
+rescue ArgumentError
+  puts "Ошибка чтения файла."
+end
+
+#Метод для выбора нужного метода
+def methods(met_number, array)
+  case met_number
+    when 1
+      puts "Минимальный элемент (for): #{min_element(array)}"
+    when 2
+      puts "Минимальный элемент (while): #{min_element_while(array)}"
+    when 3
+      puts "Номер первого положительного элемента (for): #{first_positive_for(array)}"
+    when 4
+      puts "Номер первого положительного элемента (while): #{first_positive_while(array)}"
+    when 5
+      puts "Количество элементов (for): #{count_elements_for(array)}"
+    when 6
+      puts "Количество элементов (while): #{count_elements_while(array)}"
+    else 
+      puts "Метод не найден"
+  end
+end
+
+
+
