@@ -5,7 +5,7 @@ ruby_command=$stdin.gets.chomp
 #Вывод результата команды для Ruby
 puts"Результатик для Руби:"
 eval(ruby_command)
-#Ввод команды для ОС
+#Ввод команды для ОС.
 print"Введите команду операционной системы:"
 os_command=$stdin.gets.chomp
 #Вывод результата команды для ОС
