@@ -90,7 +90,7 @@ met_number = ARGV[0].to_i
 filep = ARGV[1]
 #Проверка на существование файла
 begin
-  array = File.read(filep).split.map(&:to_i)
+  array = File.readlines(filep).map(&:to_i)  
   methods(met_number, array)
 rescue Errno::ENOENT
   puts "Файл не найден"
