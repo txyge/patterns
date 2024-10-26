@@ -1,20 +1,26 @@
 class Student
   attr_accessor :id, :surname, :first_name, :last_name, :phone, :telegram, :email, :git
 
-  def initialize(surname, first_name, last_name = nil, phone = nil, telegram = nil, email = nil, git = nil)
-    @id = generate_id
+  def initialize(surname:, first_name:, last_name:, id: nil, phone: nil, email: nil, git: nil, telegram: nil)
+    super(id: id, git: git)
+    set_contacts(phone: phone, telegram: telegram, email: email)
     self.surname = surname
     self.first_name = first_name
     self.last_name = last_name
-    self.phone = phone
-    self.telegram = telegram
-    self.email = email
-    self.git = git
   end
-  def generate_id
-    Random.rand(0..100)
+  
+  def set_contacts(phone: nil, telegram: nil, email: nil)
+    if !phone.nil?
+      self.phone = phone
+    end
+    if !telegram.nil?
+      self.telegram = telegram
+    end
+    if !email.nil?
+      self.email = email
+    end
   end
-
+  
     def hasgit?()
     if self.git == nil
       false
