@@ -20,6 +20,25 @@ class Student
       self.email = email
     end
   end
+   def self.parse(string)
+    attributes = {}
+
+    string.split(', ').each do |pair|
+      key, value = pair.split(': ')
+      attributes[key] = value
+    end
+
+    new(
+      id: attributes['ID'],
+      surname: attributes['Фамилия'],
+      first_name: attributes['Имя'],
+      last_name: attributes['Отчество'],
+      phone: attributes['Телефон'],
+      telegram: attributes['Телеграм'],
+      email: attributes['Почта'],
+      git: attributes['Гит']
+    )
+  end
   
     def hasgit?()
     if self.git == nil
