@@ -10,8 +10,4 @@ class Student_short < Base
     "ID: #{@id}, ФИО: #{@surname_initials} Git: #{@git ? @git : 'нет'} Контакт: #{@contact ? @contact : 'нет'} "
   end
 
-  def add_contact(contact)
-    @contact ||= []
-    @contact << "#{contact[:type]}: #{contact[:value]}" if contact
-  end
 end
