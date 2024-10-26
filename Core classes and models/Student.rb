@@ -15,6 +15,14 @@ class Student
     Random.rand(0..100)
   end
 
+    def phone=(phone)
+    if phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
+      @phone = phone
+    else
+      raise ArgumentError, "Некорректный номер телефона"
+    end
+  end
+  
   def to_s
     "ID: #{@id}, Фамилия: #{@surname}, Имя: #{@first_name}, Отчество: #{@last_name}, " \
     "Телефон: #{@phone}, Телеграм: #{@telegram}, Почта: #{@email}, Гит: #{@git}"
