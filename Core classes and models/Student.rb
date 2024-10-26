@@ -11,4 +11,12 @@ class Student
     @email = email
     @git = git
   end
+  def generate_id
+    Random.rand(0..100)
+  end
+
+  def to_s
+    "ID: #{@id}, Фамилия: #{@surname}, Имя: #{@first_name}, Отчество: #{@last_name}, " \
+    "Телефон: #{@phone}, Телеграм: #{@telegram}, Почта: #{@email}, Гит: #{@git}"
+  end
 end
