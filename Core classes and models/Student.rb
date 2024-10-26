@@ -15,6 +15,24 @@ class Student
     Random.rand(0..100)
   end
 
+    def hasgit?()
+    if self.git == nil
+      false
+    else
+      true
+    end
+  end
+  def hascontact?()
+    if @phone == nil && @telegram == nil && @email==nil
+      false
+    else  
+      true
+    end
+  end
+  def validate?
+    hasgit?() && hascontact?()
+  end
+  
     def phone=(phone)
     if phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
       @phone = phone
