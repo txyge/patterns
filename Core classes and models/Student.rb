@@ -57,6 +57,12 @@ class Student
   def validate?
     hasgit?() && hascontact?()
   end
+
+    def getinfo
+    "ID: #{@id}, ФИО: #{@surname} #{@first_name[0]} #{@last_name[0]} Git: #{@git ? @git : 'нет'} #{get_contacts}"
+  end
+
+  protected
   
     def phone=(phone)
     if phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
