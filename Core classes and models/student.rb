@@ -23,7 +23,7 @@ class Student < Base
     end
   end
 
-  def self.parsing(string)
+  def self.construct(string)
     attributes = {}
 
     string.split(', ').each do |pair|
@@ -48,7 +48,7 @@ class Student < Base
     "Телефон: #{@phone}, Телеграм: #{@telegram}, Почта: #{@email}, Гит: #{@git}"
   end
 
-  def get_contacts
+  def get_contact
     contact_info = ''
     if !@phone.nil?
       contact_info += "Телефон: #{@phone} "
