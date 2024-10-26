@@ -3,13 +3,13 @@ class Student
 
   def initialize(surname, first_name, last_name = nil, phone = nil, telegram = nil, email = nil, git = nil)
     @id = generate_id
-    @surname = surname
-    @first_name = first_name
-    @last_name = last_name
-    @phone = phone
-    @telegram = telegram
-    @email = email
-    @git = git
+    self.surname = surname
+    self.first_name = first_name
+    self.last_name = last_name
+    self.phone = phone
+    self.telegram = telegram
+    self.email = email
+    self.git = git
   end
   def generate_id
     Random.rand(0..100)
