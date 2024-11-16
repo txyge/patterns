@@ -1,136 +1,136 @@
 require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\Core classes and models\base.rb'
 
-class Student < Base
-  attr_reader :surname, :first_name, :last_name
-
-  def initialize(surname:, first_name:, last_name:, id: nil, phone: nil, email: nil, git: nil, telegram: nil)
-    super(id: id, git: git)
-    set_contacts(phone: phone, telegram: telegram, email: email)
-    self.surname = surname
-    self.first_name = first_name
-    self.last_name = last_name
+class Student
+  attr_accessor :id, :last_name, :first_name, :surname, :git
+  def initialize(surname:, last_name:, first_name:, id: nil, phone: nil, mail: nil, git: nil, telegram: nil)
+    @last_name = last_name
+    @first_name = first_name
+    @surname = surname
+    @id = id
+    @git = git
+    set_contact(phone: phone, mail: mail, telegram: telegram)
   end
 
-  def set_contacts(phone: nil, telegram: nil, email: nil)
-    if !phone.nil?
-      self.phone = phone
-    end
-    if !telegram.nil?
-      self.telegram = telegram
-    end
-    if !email.nil?
-      self.email = email
-    end
-  end
 
-  def self.construct(string)
-    attributes = {}
-
-    string.split(', ').each do |pair|
-      key, value = pair.split(': ')
-      attributes[key] = value
-    end
-
+  def self.create_student(string)
+    attr={}
     new(
-      id: attributes['ID'],
-      surname: attributes['Фамилия'],
-      first_name: attributes['Имя'],
-      last_name: attributes['Отчество'],
-      phone: attributes['Телефон'],
-      telegram: attributes['Телеграм'],
-      email: attributes['Почта'],
-      git: attributes['Гит']
+      id: attrs[:id],
+      surname: attrs[:surname],
+      first_name: attrs[:first_name],
+      last_name: attrs[:last_name],
+      phone: attrs[:phone],
+      mail: attrs[:mail],
+      git: attrs[:git],
+      telegram: attrs[:telegram]
     )
   end
-
+  def get_contacts()
+    contact_info = []
+    contact_info << "Телефон: #{@phone}" if !@phone.nil?
+    contact_info << "Телеграм: #{@telegram}" if !@telegram.nil?
+    contact_info << "Почта: #{@mail}" if !@mail.nil?
+    contact_info.join(", ")
+  end
+  
   def to_s
-    "ID: #{@id}, Фамилия: #{@surname}, Имя: #{@first_name}, Отчество: #{@last_name}, " \
-    "Телефон: #{@phone}, Телеграм: #{@telegram}, Почта: #{@email}, Гит: #{@git}"
+    "ID: #{@id}\n" +
+    "Фамилия: #{@surname}\n" +
+    "Имя: #{@first_name}\n" +
+    "Отчество: #{@last_name}\n" +
+    (@git ? "Git: #{@git}\n" : "") +
+    (@phone ? "Телефон: #{@phone}\n" : "") +
+    (@telegram ? "Телеграм: #{@telegram}\n" : "") +
+    (@mail ? "Почта: #{@mail}\n" : "")
   end
-
-  def get_contact
-    contact_info = ''
-    if !@phone.nil?
-      contact_info += "Телефон: #{@phone} "
+  
+  def set_contact(phone: nil, mail: nil, telegram: nil)
+    if !phone.nil?
+      @phone = phone
     end
-    if !@telegram.nil?
-      contact_info += "Телеграм: #{@telegram} "
+    if !telegram.nil?
+      @telegram = telegram
     end
-    if !@email.nil?
-      contact_info += "Почта: #{@email} "
+    if !mail.nil?
+      @mail = mail
     end
-      contact_info
   end
-
-  def hasgit?()
-    if self.git == nil
+  def has_contacts?()
+    if @phone==nil && @telegram==nil && @mail==nil
       false
     else
       true
     end
   end
-  def hascontact?()
-    if @phone == nil && @telegram == nil && @email==nil
+  
+  def has_git?()
+    if @git==nil
       false
-    else  
+    else
       true
     end
   end
-  def validate?
-    hasgit?() && hascontact?()
+
+  def valid?()
+    if has_contacts?() && has_git?()
+      true
+    else
+      false
+    end
   end
 
-  def getinfo
-    "ID: #{@id}, ФИО: #{@surname} #{@first_name[0]} #{@last_name[0]} Git: #{@git ? @git : 'нет'} #{get_contacts}"
+  def self.valid_phone(phone)
+    phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
   end
 
-protected
-
+ 
   def phone=(phone)
-    if phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
+    if self.class.valid_phone(phone)
       @phone = phone
     else
-      raise ArgumentError, "Некорректный номер телефона"
+      raise ArgumentError, "Недопустимый номер телефона"
     end
   end
 
-  def email=(email)
-    if email.match?(/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)
-      @email = email
-    else
-      raise ArgumentError, "Некорректно введен email"
-    end
+  def validate_last_name(name)
+    raise ArgumentError, "Фамилия обязательна" if name.nil? || name.strip.empty?
+    raise ArgumentError, "Фамилия должна содержать только буквы" unless name =~ /^[а-яА-ЯёЁa-zA-Z]+$/
+    name
   end
 
-  def telegram=(telegram)
+  def validate_first_name(name)
+    raise ArgumentError, "Имя обязательно" if name.nil? || name.strip.empty?
+    raise ArgumentError, "Имя должно содержать только буквы" unless name =~ /^[а-яА-ЯёЁa-zA-Z]+$/
+    name
+  end
+  
+  def validate_surname(name)
+    raise ArgumentError, "Отчество обязательно" if name.nil? || name.strip.empty?
+    raise ArgumentError, "Отчество должно содержать только буквы" unless name =~ /^[а-яА-ЯёЁa-zA-Z]+$/
+    name
+  end
+
+  def valid_telegram(telegram)
     if telegram.match?(/\A@[a-zA-Z0-9_]+\z/)
       @telegram = telegram
     else
-      raise ArgumentError, "Некорректно введен телеграм"
+      raise ArgumentError, "Неправильно введен телеграм"
     end
   end
 
-  def first_name=(first_name)
-    if first_name.match?(/^[a-zA-Zа-яА-Я\s]+$/)
-      @first_name = first_name
+  def valid_mail(mail)
+    if mail.match?(/\A[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\z/)
+      @mail = mail
     else
-      raise ArgumentError, "Некорректно введено имя"
+      raise ArgumentError, "Неправильно введена почта"
     end
   end
 
-  def surname=(surname) 
-    if surname.match?(/^[a-zA-Zа-яА-Я\s]+$/)
-      @surname = surname
+  def valid_git(git)
+    if git.match?(/\Ahttps:\/\/github\.com\/[-a-zA-Z0-9@:%_\+.~#=]+\/[-a-zA-Z0-9._~%]+\.git\z/)
+      @git = git
     else
-      raise ArgumentError, "Некорректно введена фамилия"
-    end
-  end
-
-  def last_name=(last_name)
-    if last_name.match?(/^[a-zA-Zа-яА-Я\s]+$/)
-      @last_name = last_name
-    else
-      raise ArgumentError, "Некорректно введено отчество"
+      raise ArgumentError, "Неправильно введен git"
     end
   end
 
