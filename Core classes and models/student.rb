@@ -11,19 +11,23 @@ class Student
     set_contact(phone: phone, mail: mail, telegram: telegram)
   end
 
-
-  def self.create_student(string)
-    attr={}
-    new(
-      id: attrs[:id],
-      surname: attrs[:surname],
-      first_name: attrs[:first_name],
-      last_name: attrs[:last_name],
-      phone: attrs[:phone],
-      mail: attrs[:mail],
-      git: attrs[:git],
-      telegram: attrs[:telegram]
-    )
+  def self.from_string(string)
+    attr = {}
+    begin
+      attr[:id], attr[:surname], attr[:first_name], attr[:last_name], attr[:phone], attr[:telegram], attr[:email], attr[:github] = string.split(", ").map(&:strip)
+      new(
+        id: attr[:id].to_i,
+        surname: attr[:surname],
+        first_name: attr[:first_name],
+        last_name: attr[:last_name],
+        phone: attr[:phone],
+        mail: attr[:email],
+        git: attr[:github],
+        telegram: attr[:telegram]
+      )
+    rescue ArgumentError => e
+      raise ArgumentError, "Ошибка парсинга строки: #{e.message}"
+    end
   end
   def get_contacts()
     contact_info = []
@@ -33,6 +37,10 @@ class Student
     contact_info.join(", ")
   end
   
+  def get_info()
+      "#{surname} #{first_name[0]}.#{last_name[0]}| Гит: #{git} | Связь: Тел: #{@phone ? @phone : ''}, Телеграм: #{@telegram ? @telegram : ''}, Почта: #{@mail ? @mail : ''}"\
+  end
+
   def to_s
     "ID: #{@id}\n" +
     "Фамилия: #{@surname}\n" +
