@@ -1,44 +1,48 @@
-require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\Core classes and models\base.rb'
+require_relative 'C:\Users\Extrafly\Desktop\kostia\base.rb'
 
-class Student
-  attr_accessor :id, :last_name, :first_name, :surname, :git
+class Student < Base
+  attr_accessor :last_name, :first_name, :surname
   def initialize(surname:, last_name:, first_name:, id: nil, phone: nil, mail: nil, git: nil, telegram: nil)
-    @last_name = last_name
-    @first_name = first_name
-    @surname = surname
-    @id = id
-    @git = git
+    super(id: id, git: git)
+    self.last_name = last_name
+    self.first_name = first_name
+    self.surname = surname
     set_contact(phone: phone, mail: mail, telegram: telegram)
   end
 
   def self.from_string(string)
     attr = {}
     begin
-      attr[:id], attr[:surname], attr[:first_name], attr[:last_name], attr[:phone], attr[:telegram], attr[:email], attr[:github] = string.split(", ").map(&:strip)
+      attr[:id], attr[:surname], attr[:first_name], attr[:last_name], attr[:phone], attr[:telegram], attr[:mail], attr[:git] = string.split(", ").map(&:strip)
       new(
-        id: attr[:id].to_i,
+        id: attr[:id],
         surname: attr[:surname],
         first_name: attr[:first_name],
         last_name: attr[:last_name],
         phone: attr[:phone],
-        mail: attr[:email],
-        git: attr[:github],
+        mail: attr[:mail],
+        git: attr[:git],
         telegram: attr[:telegram]
       )
     rescue ArgumentError => e
       raise ArgumentError, "Ошибка парсинга строки: #{e.message}"
     end
   end
-  def get_contacts()
-    contact_info = []
-    contact_info << "Телефон: #{@phone}" if !@phone.nil?
-    contact_info << "Телеграм: #{@telegram}" if !@telegram.nil?
-    contact_info << "Почта: #{@mail}" if !@mail.nil?
-    contact_info.join(", ")
+
+  def get_contact
+    if @phone
+      "Телефон: #{@phone}"
+    elsif @telegram
+      "Телеграм: #{@telegram}"
+    elsif @mail
+      "Почта: #{@mail}"
+    else
+      ''
+    end
   end
-  
+
   def get_info()
-      "#{surname} #{first_name[0]}.#{last_name[0]}| Гит: #{git} | Связь: Тел: #{@phone ? @phone : ''}, Телеграм: #{@telegram ? @telegram : ''}, Почта: #{@mail ? @mail : ''}"\
+      "#{surname} #{first_name[0]}.#{last_name[0]}| Гит: #{git} | Связь: #{get_contact}"\
   end
 
   def to_s
@@ -52,17 +56,6 @@ class Student
     (@mail ? "Почта: #{@mail}\n" : "")
   end
   
-  def set_contact(phone: nil, mail: nil, telegram: nil)
-    if !phone.nil?
-      @phone = phone
-    end
-    if !telegram.nil?
-      @telegram = telegram
-    end
-    if !mail.nil?
-      @mail = mail
-    end
-  end
   def has_contacts?()
     if @phone==nil && @telegram==nil && @mail==nil
       false
@@ -70,52 +63,15 @@ class Student
       true
     end
   end
-  
-  def has_git?()
-    if @git==nil
-      false
-    else
-      true
-    end
-  end
-
-  def valid?()
-    if has_contacts?() && has_git?()
-      true
-    else
-      false
-    end
-  end
 
   def self.valid_phone(phone)
     phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
   end
 
- 
-  def phone=(phone)
-    if self.class.valid_phone(phone)
-      @phone = phone
-    else
-      raise ArgumentError, "Недопустимый номер телефона"
-    end
-  end
-
-  def validate_last_name(name)
-    raise ArgumentError, "Фамилия обязательна" if name.nil? || name.strip.empty?
-    raise ArgumentError, "Фамилия должна содержать только буквы" unless name =~ /^[а-яА-ЯёЁa-zA-Z]+$/
-    name
-  end
-
-  def validate_first_name(name)
-    raise ArgumentError, "Имя обязательно" if name.nil? || name.strip.empty?
-    raise ArgumentError, "Имя должно содержать только буквы" unless name =~ /^[а-яА-ЯёЁa-zA-Z]+$/
-    name
-  end
-  
-  def validate_surname(name)
-    raise ArgumentError, "Отчество обязательно" if name.nil? || name.strip.empty?
-    raise ArgumentError, "Отчество должно содержать только буквы" unless name =~ /^[а-яА-ЯёЁa-zA-Z]+$/
-    name
+  def validate_fio(value)
+    raise ArgumentError, "Это поле обязательно" if value.nil? || value.strip.empty?
+    raise ArgumentError, "Это поле должно содержать только буквы" unless value =~ /^[а-яА-ЯёЁa-zA-Z]+$/
+    value
   end
 
   def valid_telegram(telegram)
@@ -134,12 +90,17 @@ class Student
     end
   end
 
-  def valid_git(git)
-    if git.match?(/\Ahttps:\/\/github\.com\/[-a-zA-Z0-9@:%_\+.~#=]+\/[-a-zA-Z0-9._~%]+\.git\z/)
-      @git = git
-    else
-      raise ArgumentError, "Неправильно введен git"
+  private
+
+  def set_contact(phone: nil, mail: nil, telegram: nil)
+    if !phone.nil?
+      @phone = phone
+    end
+    if !telegram.nil?
+      @telegram = telegram
+    end
+    if !mail.nil?
+      @mail = mail
     end
   end
-
 end
