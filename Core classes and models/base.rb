@@ -15,7 +15,7 @@ class Base
   end
 
   def valid?()
-    if has_contacts?() && has_git?()
+    if has_contact?() && has_git?()
       true
     else
       false
