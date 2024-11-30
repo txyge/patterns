@@ -1,4 +1,4 @@
-require_relative 'C:\Users\Extrafly\Desktop\kostia\base.rb'
+require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\Core classes and models\base.rb'
 
 class Student < Base
   attr_accessor :last_name, :first_name, :surname
