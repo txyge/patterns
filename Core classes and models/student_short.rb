@@ -2,8 +2,8 @@ require_relative 'C:\Users\Extrafly\Desktop\kostia\base.rb'
 class Student_short < Base
 
   def self.create_from_students(student)
-    surname_initials = "#{student.surname} #{student.name[0]}."
-    surname_initials += " #{student.patronymic[0]}." if student.patronymic
+    surname_initials = "#{student.last_name} #{student.first_name[0]}."
+    surname_initials += " #{student.surname[0]}." if student.surname
 
     new(
       id: student.id,
@@ -49,8 +49,6 @@ class Student_short < Base
     contact = @contact || 'нет'
     "ID: #{id}, ФИО: #{@surname_initials}, Git: #{git}, Контакт: #{contact}"
   end
-
-  private_class_method :new
 
   def initialize(id:, git:, surname_initials:, contact: nil)
     super(id: id, git: git)
