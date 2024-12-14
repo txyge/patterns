@@ -34,7 +34,7 @@ class Base
     end
   end
 
-  protected 
+  private 
 
   # сеттеры
   def git=(git)
