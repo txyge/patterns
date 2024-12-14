@@ -68,39 +68,79 @@ class Student < Base
     phone.match?(/\A(\+\d{1,3}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\z/)
   end
 
-  def validate_fio(value)
-    raise ArgumentError, "Это поле обязательно" if value.nil? || value.strip.empty?
-    raise ArgumentError, "Это поле должно содержать только буквы" unless value =~ /^[а-яА-ЯёЁa-zA-Z]+$/
-    value
+  def self.validate_fio(name)
+    name.match?(/\A[А-ЯЁ][а-яё]+\z/)
   end
 
-  def valid_telegram(telegram)
-    if telegram.match?(/\A@[a-zA-Z0-9_]+\z/)
+  def self.valid_telegram(telegram)
+    telegram.match?(/\A@[a-zA-Z0-9_]+\z/)
+  end
+
+  def self.valid_mail(mail)
+    mail.match?(/\A[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\z/)
+  end
+ 
+  def first_name=(first_name)
+    if self.validate_fio(first_name)
+      @first_name = first_name
+    else
+      raise ArgumentError, "Неправильно введено имя"
+    end
+  end
+
+  def last_name=(last_name)
+    if self.validate_fio(last_name)
+      @last_name = last_name
+    else
+      raise ArgumentError, "Неправильно введена фамилия"
+    end
+  end
+
+  def surname=(surname)
+    if self.validate_fio(surname)
+      @surname = surname
+    else
+      raise ArgumentError, "Неправильно введено отчество"
+    end
+  end
+
+  private
+
+  def phone=(phone)
+    if self.valid_phone(phone)
+      @phone = phone
+    else
+      raise ArgumentError, "Неправильно введен номер телефона"
+    end
+  end
+
+  def telegram=(telegram)
+    if self.valid_telegram(telegram)
       @telegram = telegram
     else
       raise ArgumentError, "Неправильно введен телеграм"
     end
   end
 
-  def valid_mail(mail)
-    if mail.match?(/\A[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\z/)
+
+  def mail=(mail)
+    if self.valid_mail(mail)
       @mail = mail
     else
       raise ArgumentError, "Неправильно введена почта"
     end
   end
 
-  private
 
   def set_contact(phone: nil, mail: nil, telegram: nil)
     if !phone.nil?
-      @phone = phone
+      self.phone = phone
     end
     if !telegram.nil?
-      @telegram = telegram
+      self.telegram = telegram
     end
     if !mail.nil?
-      @mail = mail
+      self.mail = mail
     end
   end
 end
