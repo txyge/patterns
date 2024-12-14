@@ -1,6 +1,7 @@
 require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\Core classes and models\base.rb'
 class Student_short < Base
-
+  attr_reader :surname_initials, :contact
+  
   def self.create_from_students(student)
     surname_initials = "#{student.last_name} #{student.first_name[0]}."
     surname_initials += " #{student.surname[0]}." if student.surname
@@ -25,14 +26,6 @@ class Student_short < Base
       surname_initials: attributes['ФИО'],
       contact: [attributes['Тел'], attributes['Телеграм'], attributes['Почта']].compact.first
     )
-  end
-
-  def surname_initials=(surname_initials)
-    @surname_initials = surname_initials
-  end
-
-  def contact=(contact)
-    @contact = contact
   end
 
   def has_contact?()
