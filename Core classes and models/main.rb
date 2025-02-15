@@ -48,7 +48,7 @@ load_students_from_file('C:\Users\slast\OneDrive\Рабочий стол').each 
   puts student.get_info
 end
 
-student_short = Student_short.create_from_student(students[0])
+student_short = Student_short.create_from_students(students[0])
 
 puts student1_short.to_s
 puts "\n"
