@@ -1,5 +1,3 @@
-# main.rb
-
 require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\array\html_tree\html_tree.rb'
 
 # Входные данные HTML
