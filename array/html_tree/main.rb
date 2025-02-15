@@ -1,11 +1,43 @@
-require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\array\array_processing.rb'
+# main.rb
 
-custommethod = CustomArrayProcessor.new([1, 2, 3, 4, 5, 6, 4, 8, 5, 10])
-custommethod_additionally = CustomArrayProcessor.new([11, 12, 13, 14, 15])
+require_relative 'C:\Users\slast\OneDrive\Рабочий стол\Ruby\array\html_tree\html_tree.rb'
 
-puts custommethod.find { |i| i % 5 == 0 } # Вывод: 5
-puts custommethod.min_by { |i| -i } # Вывод: 10
-puts custommethod.inject(0) { |sum, i| sum + i } # Вывод: 48
-puts custommethod.one? { |i| i == 10 } # Вывод: true
-puts custommethod_additionally.flat_map { |i| [i, i * 2] }  # Вывод: [11, 22, 12, 24, 13, 26, 14, 28, 15, 30]
-puts custommethod.all? { |i| i < 11 }  # Вывод: true
+# Входные данные HTML
+html_input = '<div class="container"><h1>Hello World</h1><p>This is a paragraph.</p></div>'
+tree = HtmlTree.new(html_input)
+
+puts "HTML Tree Structure:"
+puts tree.to_s
+
+puts "\nText Content Count:"
+puts tree.count
+
+puts "\nElements in Depth First with Index:"
+tree.each_with_index { |tag, index| puts "Index #{index}: Tag: #{tag.name}" }
+
+puts "\nElements in Breadth First:"
+tree.each_breadth_first { |tag| puts "Tag: #{tag.name}" }
+
+# Получение имен всех тегов с использованием метода `map`
+tag_names = tree.map(&:name)
+puts "\nAll tag names: #{tag_names.join(', ')}"
+
+# Выбор тегов с определенным именем с использованием метода `find_all`
+h1_tags = tree.find_all { |tag| tag.name == 'h1' }
+puts "\nH1 tags: #{h1_tags.map(&:to_s).join(', ')}"
+
+# Нахождение первого тега с определенным именем с использованием метода `detect`
+first_div = tree.detect { |tag| tag.name == 'div' }
+puts "\nFirst div tag: #{first_div}" if first_div
+
+# Проверка, есть ли хотя бы один тег <p> с использованием метода `any?`
+has_paragraph = tree.any? { |tag| tag.name == 'p' }
+puts "\nContains at least one <p> tag: #{has_paragraph}"
+
+# Проверка, все теги имеют дочерние элементы с использованием метода `all?`
+all_have_children = tree.all? { |tag| tag.to_number > 0 }
+puts "\nAll tags have children: #{all_have_children}"
+
+# Исключение тегов с определенным именем с использованием метода `reject`
+non_paragraph_tags = tree.reject { |tag| tag.name == 'p' }
+puts "\nTags excluding paragraphs: #{non_paragraph_tags.map(&:to_s).join(', ')}"
