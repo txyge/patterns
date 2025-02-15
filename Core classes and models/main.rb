@@ -7,7 +7,8 @@ student2 = Student.new(id: "2", last_name: "Петров", first_name: "Петр
 student3 = Student.from_string("3, Иванов, Иван, Иванович, +7 (999) 123-45-67, @ivanov, ivanov@example.com,  https://github.com/Bagdad1/repo.git")
 puts student1.get_info
 puts student2.to_s
-puts student3
+puts "\nСтудент 3 валиден? #{student3.validate?}"
+
 
 
 def save_students_to_file(directory, filename, student_list)
@@ -46,3 +47,12 @@ save_students_to_file('C:\Users\slast\OneDrive\Рабочий стол', 'data',
 load_students_from_file('C:\Users\slast\OneDrive\Рабочий стол').each do |student|
   puts student.get_info
 end
+
+student_short = Student_short.create_from_student(students[0])
+
+puts student1_short.to_s
+puts "\n"
+student2_short = Student_short.create_from_string(students[0].get_info)
+puts students[0].get_info
+puts student3_short.to_s
+puts "Короткий студент валиден? #{student2_short.validate?}"
