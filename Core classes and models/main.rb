@@ -52,7 +52,7 @@ student_short = Student_short.create_from_students(students[0])
 
 puts student1_short.to_s
 puts "\n"
-student2_short = Student_short.create_from_string(students[0].get_info)
-puts students[0].get_info
-puts student3_short.to_s
+student2_short = Student_short.create_from_string(students[2].get_info)
+puts students[2].get_info
+puts student2_short.to_s
 puts "Короткий студент валиден? #{student2_short.validate?}"
