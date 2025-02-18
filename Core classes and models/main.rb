@@ -36,8 +36,8 @@ def load_students_from_file(file_path)
 end
 
   students = [
-  Student.from_string('1, Иванов, Иван, Иванович, +7 (999) 123-45-67, @ivanov, ivanov@example.com,  https://github.com/Bagdad1/repo.git'),
-  Student.from_string('2, Иванов, Иван, Иванович, +7 (999) 123-45-67, @ivanov, ivanov@example.com,  https://github.com/Bagdad1/repo.git'),
+  Student.from_string('ID: 1, Git: https://github.com/user1/repo, ФИО: Иванов И. А., Тел: 1234567890, Телеграм: @ivanov, Почта: ivanov@example.com'),
+  Student.from_string('ID: 2, Git: https://github.com/user2/repo, ФИО: Олегов И. А., Тел: 1234567890, Телеграм: @olegov, Почта: olegov@example.com'),
 ]
 
 # Записываем студентов в файл
